@@ -42,6 +42,8 @@ if ingridients_list:
     
     for fruit_chosen in ingridients_list:
         ingredients_string += fruit_chosen + ' '  #+= means "Add this to what is alreay in the variable"
+        search_on=pd_df.loc[pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON'].iloc[0]
+        st.write('The search value for ', fruit_chosen,' is ', search_on, '.')
         st.subheader(fruit_chosen + ' Nutrition Information')
         fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
         fv_df = st.dataframe(data=fruityvice_response.jason(), use_container_width=True)
