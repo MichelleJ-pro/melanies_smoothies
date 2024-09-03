@@ -35,21 +35,17 @@ if ingridients_list:
     
     for fruit_chosen in ingridients_list:
         ingredients_string += fruit_chosen + ' '  #+= means "Add this to what is alreay in the variable"
-    
-    #st.write(ingredients_string)
-    
-    my_insert_stmt = """ insert into smoothies.public.orders(ingredients, name_on_order)
-            values ('""" + ingredients_string + """','"""+name_on_order+"""')"""
+        st.subheader(fruit_chosen + ' Nutrition Information')
+        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+        fv_df = st.dataframe(data=fruityvice_response.jason(), use_container_width=True)
 
-    #st.write(my_insert_stmt)
-    #st.stop()   #This stops the code 
     
-    # Add submit button
-    time_to_insert = st.button('Submit Order')
+        my_insert_stmt = """ insert into smoothies.public.orders(ingredients, name_on_order)
+                values ('""" + ingredients_string + """','"""+name_on_order+"""')"""
     
-    fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-    fv_df = st.dataframe(data=fruityvice_response.jason(), use_container_width=True)
-    
+        # Add submit button
+        time_to_insert = st.button('Submit Order')
+        
     if time_to_insert:
         session.sql(my_insert_stmt).collect()
         st.success('Your Smoothie is orderd, ' + name_on_order + '!', icon="✅")
