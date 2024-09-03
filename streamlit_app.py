@@ -2,6 +2,7 @@
 import streamlit as st
 #from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
+import requests
 
 # Write directly to the app
 st.title("Customize Your Smoothie :cup_with_straw:")
@@ -46,9 +47,7 @@ if ingridients_list:
     # Add submit button
     time_to_insert = st.button('Submit Order')
     
-    import requests
     fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-    #st.text(fruityvice_response.json())
     fv_df = st.dataframe(data=fruityvice_response.jason(), use_container_width=True)
     
     if time_to_insert:
